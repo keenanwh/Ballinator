@@ -19,6 +19,9 @@ public class Ballinator : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         origPos = transform.position; // grab original co-ords for reset
         scoreScript = (Score)FindObjectOfType(typeof(Score));
+
+        Renderer rend = GetComponent<Renderer>();
+        rend.material.color = Color.red;
     }
 
     void Update()

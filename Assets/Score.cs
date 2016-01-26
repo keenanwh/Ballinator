@@ -11,6 +11,8 @@ public class Score : MonoBehaviour
     public void Reset()
     {
         currentScore = 0;
+        scoreText = GetComponent<TextMesh>();
+        scoreText.text = currentScore.ToString();
     }
 
     public void FellOff()
@@ -24,15 +26,13 @@ public class Score : MonoBehaviour
     }
 
 	// Use this for initialization
-	void Start ()
+	void Start()
     {
-        scoreText = GetComponent<TextMesh>();
-        scoreText.text = "0";
         Reset();
     }
 
     // Update is called once per frame
-    void Update ()
+    void Update()
     {
         scoreText.text = currentScore.ToString();
     }
