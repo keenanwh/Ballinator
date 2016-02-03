@@ -4,15 +4,30 @@ using UnityEditor;
 
 public class Plane : MonoBehaviour {
 
-	// Use this for initialization
-	void Start ()
+    public void StartMovement()
     {
-           
+        _allowMovement = true;
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    public void StopMovement()
+    {
+        _allowMovement = false;
+        transform.position = _origPos;
+        transform.rotation = _origRot;
+    }
+
+    // Use this for initialization
+    void Start ()
+    {
+        // grab original co-ords to be able to reset back to them
+        _origPos = transform.position;
+
+    }
+
+    // Update is called once per frame
+    void Update ()
 	{
+        // Debug.Log("plane update() entry");
         // change the tilt of the plane every period
 	    if (Time.time > _nextChangeTiltTime)
 	    {
@@ -27,9 +42,10 @@ public class Plane : MonoBehaviour {
     // Change the target tilt of the plane
     void UpdatePlaneTilt()
     {
+        Debug.Log("plane UpdatePlaneTilt() entry");
         // plane tilt can be up to maxTilt on both axes
-        float tiltAroundZ = Input.GetAxis("Horizontal") * Random.Range(-MaxTiltAngle, MaxTiltAngle);
-        float tiltAroundX = Input.GetAxis("Horizontal") * Random.Range(-MaxTiltAngle, MaxTiltAngle);
+        float tiltAroundX = Random.Range(-MaxTiltAngle, MaxTiltAngle);
+        float tiltAroundZ = Random.Range(-MaxTiltAngle, MaxTiltAngle);
         _targetRotation = Quaternion.Euler(tiltAroundX, 0, tiltAroundZ); // converts x, y, z tilt to quaternion rotation
     }
 
@@ -38,5 +54,8 @@ public class Plane : MonoBehaviour {
     private float _period = 1.0f;
     private Quaternion _targetRotation;
 
-    private const float MaxTiltAngle = 15.0f;
+    private const float MaxTiltAngle = 25.0f;
+    private bool _allowMovement = true;
+    private Vector3 _origPos;
+    private Quaternion _origRot;
 }

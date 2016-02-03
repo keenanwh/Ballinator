@@ -11,11 +11,19 @@ public class Ballinator : MonoBehaviour
         // grab original co-ords to be able to reset back to them
         _origPos = transform.position;
         _allowMovement = true;
+        _planeScript.StartMovement();
     }
 
     public void StopGame()
     {
         _allowMovement = false;
+        ResetPosition();
+        _planeScript.StopMovement();
+    }
+
+    public void ResetPosition() 
+    {
+        transform.position = _origPos;
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
     }
@@ -24,6 +32,8 @@ public class Ballinator : MonoBehaviour
     {
         // used to update score
         _scoreScript = (Score)FindObjectOfType(typeof(Score));
+        // used to start and stop plane movement
+        _planeScript = (Plane)FindObjectOfType(typeof(Plane));
 
         rb = GetComponent<Rigidbody>();
         rend = GetComponent<Renderer>();
@@ -31,7 +41,7 @@ public class Ballinator : MonoBehaviour
         StartGame();
     }
 
-    public void Update()
+    public void FixedUpdate()
     {
         // change the tilt of the plane every period
         if (Time.time > _nextChangeTiltTime)
@@ -65,10 +75,8 @@ public class Ballinator : MonoBehaviour
 
         // start over if ball rolled off edge
         if (transform.position.y <= -15)
-        { 
-            transform.position = _origPos;
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
+        {
+            ResetPosition();
             _scoreScript.FellOff();
         }
 
@@ -83,6 +91,7 @@ public class Ballinator : MonoBehaviour
 
     private Vector3 _origPos;
     private Score _scoreScript;
+    private Plane _planeScript;
     private float _nextChangeTiltTime = 0.0f;
     private float _period = 1.0f;
     private Color _targetColor = Color.red;
