@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEditor;
 
 public class Plane : MonoBehaviour {
 
@@ -27,16 +26,19 @@ public class Plane : MonoBehaviour {
     // Update is called once per frame
     void Update ()
 	{
-        // Debug.Log("plane update() entry");
-        // change the tilt of the plane every period
-	    if (Time.time > _nextChangeTiltTime)
-	    {
-	        _nextChangeTiltTime += _period;
-            UpdatePlaneTilt();
-	    }
+        if (_allowMovement)
+        {
+            // Debug.Log("plane update() entry");
+            // change the tilt of the plane every period
+            if (Time.time > _nextChangeTiltTime)
+            {
+                _nextChangeTiltTime += _period;
+                UpdatePlaneTilt();
+            }
 
-        // smoothly change tilt of plane based to targetRotation based on time
-        transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, _speed * Time.deltaTime);
+            // smoothly change tilt of plane based to targetRotation based on time
+            transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, _speed * Time.deltaTime);
+        }
     }
 
     // Change the target tilt of the plane

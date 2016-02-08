@@ -43,15 +43,15 @@ public class Ballinator : MonoBehaviour
 
     public void FixedUpdate()
     {
-        // change the tilt of the plane every period
-        if (Time.time > _nextChangeTiltTime)
-        {
-            _nextChangeTiltTime += _period;
-            UpdateColor();
-        }
-
         if (_allowMovement)
         {
+            // change the tilt of the plane every period
+            if (Time.time > _nextChangeTiltTime)
+            {
+                _nextChangeTiltTime += _period;
+                UpdateColor();
+            }
+
             if (Input.GetKey(KeyCode.LeftArrow))
             {
                 rb.AddForce(Vector3.left * speed * Time.deltaTime);
@@ -71,16 +71,16 @@ public class Ballinator : MonoBehaviour
             {
                 rb.AddForce(Vector3.forward * speed * Time.deltaTime);
             }
-        }
 
-        // start over if ball rolled off edge
-        if (transform.position.y <= -15)
-        {
-            ResetPosition();
-            _scoreScript.FellOff();
-        }
+            // start over if ball rolled off edge
+            if (transform.position.y <= -15)
+            {
+                ResetPosition();
+                _scoreScript.FellOff();
+            }
 
-        rend.material.color = Color.Lerp(rend.material.color, _targetColor, colorChangeSpeed * Time.deltaTime);
+            rend.material.color = Color.Lerp(rend.material.color, _targetColor, colorChangeSpeed * Time.deltaTime);
+        }
     }
 
     // Change the target color of the ball

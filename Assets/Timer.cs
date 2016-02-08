@@ -34,7 +34,7 @@ public class Timer : MonoBehaviour
             timerText.text = timeLeft.ToString("0.0");
     }
 
-    private const int TimePerRound = 10;
+    private const int TimePerRound = 30;
     private TextMesh timerText;
     private float startTime;
     private Ballinator _ballinatorScript;
